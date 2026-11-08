@@ -1,0 +1,25 @@
+diff --git a/packages/octane/src/runtime/deopt.ts b/packages/octane/src/runtime/deopt.ts
+index 56612e24..5290aaff 100644
+--- a/packages/octane/src/runtime/deopt.ts
++++ b/packages/octane/src/runtime/deopt.ts
+@@ -2380,10 +2380,16 @@ export function placeUpgradedList(args: any[]): void {
+ 	if (owner.disposed || (owner.slots[0] as ChildSlot | undefined)?.forSlot !== state) return;
+ 	if (wraps !== null)
+ 		for (let i = 0; i < wraps.length; i += 2) {
+-			const node: Node = wraps[i + 1];
+-			if (node.parentNode !== host) continue;
+-			host.insertBefore(wraps[i].startMarker, node);
+-			host.insertBefore(wraps[i].endMarker, getNextSibling(node));
++			const block: Block = wraps[i];
++			if (block.startMarker!.parentNode === host) continue;
++			const node: Node = block.deoptNode ?? wraps[i + 1];
++			if (node.parentNode !== host) {
++				host.insertBefore(block.startMarker!, null);
++				host.insertBefore(block.endMarker!, null);
++				continue;
++			}
++			host.insertBefore(block.startMarker!, node);
++			host.insertBefore(block.endMarker!, getNextSibling(node));
+ 		}
+ 	host.insertBefore(state.end, null);
+ 	let anchor: Node = state.end;

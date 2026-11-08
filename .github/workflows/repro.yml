@@ -1,0 +1,15 @@
+# Runs the reproduction on every push. While the bug is present the run fails,
+# showing the error; it passes once Octane renders both cases correctly.
+name: Reproduction
+on: [push, workflow_dispatch]
+jobs:
+  repro:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test

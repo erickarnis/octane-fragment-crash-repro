@@ -1,0 +1,15 @@
+{
+  "name": "octane-fragment-crash-repro",
+  "private": true,
+  "description": "Minimal reproduction: Octane throws when a kept host element's children become a Fragment with an empty or text slot",
+  "type": "module",
+  "scripts": { "test": "vitest run" },
+  "dependencies": { "octane": "0.16.7" },
+  "devDependencies": {
+    "@tsrx/oxc": "0.23.0",
+    "jsdom": "30.0.1",
+    "typescript": "5.9.3",
+    "vite": "8.1.5",
+    "vitest": "4.1.10"
+  }
+}
